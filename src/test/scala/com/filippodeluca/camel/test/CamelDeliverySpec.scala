@@ -63,7 +63,7 @@ class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with B
         }
       }
 
-      // All the kafka messages should be committed after the camel route has been shutted down
+      // All the kafka messages should be committed after the camel route has been shut down
       a[TimeoutException] should be thrownBy consumeNumberStringMessagesFrom(kafkaTopic, kafkaMessages.size, autoCommit = false)
 
     }
