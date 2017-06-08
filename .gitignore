@@ -1,0 +1,21 @@
+*.class
+*.log
+
+# User-specific stuff:
+.idea/
+.idea_modules/
+*.iml
+/out/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
