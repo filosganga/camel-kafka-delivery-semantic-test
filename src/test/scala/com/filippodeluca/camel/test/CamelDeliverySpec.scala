@@ -117,7 +117,6 @@ class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with B
             exchange.getOut.setHeader(Exchange.HTTP_METHOD, HttpMethods.POST)
             exchange.getOut.setBody(kafkaValue)
           })
-          .delay(50)
           .to(s"$wireMockEndpoint/test")
       }
     })
