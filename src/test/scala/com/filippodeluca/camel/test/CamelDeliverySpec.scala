@@ -104,7 +104,7 @@ class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with B
       override def configure(): Unit = {
 
         // Need the brokers query param as well as the host:port in the URI ?!!!?!?!?
-        val kafkaConnector = s"kafka:$kafkaBrokers?brokers=$kafkaBrokers&topic=$kafkaTopic&groupId=$kafkaGroupId&autoOffsetReset=earliest&consumersCount=1&autoCommitEnable=false"
+        val kafkaConnector = s"kafka:$kafkaTopic?brokers=$kafkaBrokers&groupId=$kafkaGroupId&autoOffsetReset=earliest&consumersCount=1&autoCommitEnable=false&breakOnFirstError=true"
 
         from(kafkaConnector)
           // with Transacted it fails to run
