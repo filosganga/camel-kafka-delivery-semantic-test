@@ -2,7 +2,7 @@
 <configuration>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>target/test.log</file>
+        <file>${CIRCLE_ARTIFACTS}/test.log</file>
         <append>false</append>
         <encoder>
             <pattern>%-5level %date{ISO8601, UTC} %logger{36} - %msg%n</pattern>
@@ -16,6 +16,7 @@
 
     <logger name="org.apache.zookeeper" level="OFF" />
     <logger name="org.apache.kafka" level="OFF" />
+    <logger name="org.apache.camel" level="DEBUG" />
     <logger name="kafka" level="OFF" />
 
     <statusListener class="ch.qos.logback.core.status.NopStatusListener" />

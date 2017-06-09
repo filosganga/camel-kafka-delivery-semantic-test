@@ -14,12 +14,10 @@ import org.apache.camel.impl.DefaultCamelContext
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.scalatest._
-import org.scalatest.concurrent.Eventually
-
-import scala.concurrent.duration._
+import org.scalatest.concurrent.{Eventually, IntegrationPatience}
 
 
-class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with BeforeAndAfterEach with BeforeAndAfterAll with Eventually {
+class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with BeforeAndAfterEach with BeforeAndAfterAll with Eventually with IntegrationPatience {
 
   val wireMockServer: WireMockServer = new WireMockServer()
 
@@ -58,7 +56,7 @@ class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with B
 
       withCamelRoute(kafkaTopic) {
 
-        eventually(timeout(3000.millis), interval(150.millis)) {
+        eventually {
           verify(kafkaMessages.size, postRequestedFor(urlEqualTo("/test")))
         }
       }
@@ -86,7 +84,7 @@ class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with B
       kafkaMessages.foreach(i => publishToKafka(kafkaTopic, i, i))
 
       withCamelRoute(kafkaTopic) {
-        eventually(timeout(3000.millis), interval(150.millis)) {
+        eventually {
           // The endpoint should receive at least the first request (that failed)
           WireMock.verify(1, postRequestedFor(urlEqualTo("/test")))
         }
@@ -117,7 +115,6 @@ class CamelDeliverySpec extends WordSpec with Matchers with EmbeddedKafka with B
             exchange.getOut.setHeader(Exchange.HTTP_METHOD, HttpMethods.POST)
             exchange.getOut.setBody(kafkaValue)
           })
-          .delay(50)
           .to(s"$wireMockEndpoint/test")
       }
     })
